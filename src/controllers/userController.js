@@ -10,12 +10,13 @@ exports.authenticateUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return next(new BadRequestError(errors.array()[0].msg));
 
-    const { email, password } = req.body;
-    console.log(email, password);
+    const { email, password } = req.body; 
     const user = await User.findOne({ email });
     if (!user) return next(new UnauthorizedError('Invalid credentials'));
+
     const match = await bcrypt.compare(password, user.password);
     if (!match) return next(new UnauthorizedError('Invalid credentials'));
+    
     sendResult(res, true, "User authenticated successfully", { token: user.token, role: user.role });
   } catch (err) {
     next(err);
@@ -54,6 +55,7 @@ exports.updateProfile = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return next(new BadRequestError(errors.array()[0].msg));
+
     const { name, email, password } = req.body;
     if (name) req.user.name = name;
     if (email) req.user.email = email;

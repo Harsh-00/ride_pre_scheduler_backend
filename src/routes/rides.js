@@ -11,7 +11,7 @@ router.post(
     auth.requireUser,
     body('pickup').notEmpty(),
     body('dropoff').notEmpty(),
-    body('datetime').isISO8601(),
+    body('datetime').notEmpty().isISO8601(),
     rideCtrl.createRide
 );
 router.get('/', auth.verifyToken, auth.requireUser, rideCtrl.getUserRides);

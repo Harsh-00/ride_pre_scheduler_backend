@@ -1,9 +1,19 @@
 # Corporate Ride Scheduling System
 
-## 📌 Problem Statement
+##  Problem Statement
 Rapido is launching a portal for corporate clients to pre-schedule daily rides for their employees.
 You are tasked with designing and implementing a system to support ride booking, management,
 and approval workflows.
+
+## Project
+- **Explanation Video:** [Watch here](https://youtu.be/oj6ClLw5h28)
+- **Hosted on Railway:** [Live Backend](https://ridepreschedulerbackend-production.up.railway.app)
+- **Base URL:**  https://ridepreschedulerbackend-production.up.railway.app
+- **Postman Collection:**
+  - [Open in Postman Workspace](https://web.postman.co/workspace/My-Workspace~bbabd945-af76-441c-87f0-11754a03d297/collection/29814775-efd5b0d7-68a7-4168-91ba-dc78d3463c51?action=share&source=copy-link&creator=29814775)
+  - [Download Corporate_Ride_Scheduler.postman_collection](./Corporate_Ride_Scheduler.postman_collection.json)
+
+
 
 
 ## Run Locally
@@ -11,13 +21,13 @@ and approval workflows.
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/Harsh-00/ride_pre_scheduler_backend.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd ride_pre_scheduler_backend
 ```
 
 Install dependencies
@@ -29,19 +39,16 @@ Install dependencies
 Start the server
 
 ```bash
-  npm run start
+  npm run dev
 ```
 ---
-## Assumptions
-- Initially, there exist 1 admin in my database. ( Needed because "create user" enpoint can only be used by an admin)
+ 
+
+
+## Approach
+- Initially, for any corporate organization, there exist 1 admin (Stakeholder) in my database. ( Needed such that he/she can crete entries for their employees)
 - Admin can create users having role as "user" or "admin".
 - Token generation is done while creation of user and saved within the user's data entry.
-- 
-
-
-## Postman Collection
-- Link:https://web.postman.co/workspace/My-Workspace~bbabd945-af76-441c-87f0-11754a03d297/collection/29814775-efd5b0d7-68a7-4168-91ba-dc78d3463c51?action=share&source=copy-link&creator=29814775
-- File (can import directly to postman)
 
 ## User Management
 
@@ -87,30 +94,30 @@ Start the server
   ```json
   {
     "name": "John Updated-2",
-    "email": "john.updated@example.com",
-    "role": "admin"
+    "email": "john.updated@example.com"
   }
   ```
 - **Method**: PUT
 - **Access**: Authenticated User
-- **What it does**: Updates current user's profile.
+- **What it does**: Updates current user's profile. User cannot update their token, role, employee_Id
 
-### 5. Update User by ID (Admin Only)
+### 5. Update User by ID (Admin Only) (BONUS)
 - **Endpoint**: `/api/v1/users/:userId`
 - **Payload**:
   ```json
   {
     "name": "John Updated-3",
-    "employeeId": "EMP-004"
+    "employeeId": "EMP-004",
+    "role": "admin"
   }
   ```
 - **Method**: PUT
 - **Access**: Admin
-- **What it does**: Updates another user's profile based on their ID.
+- **What it does**: Updates another user's profile based on their ID. (No restrictions)
 
 ---
 
-## 🚖 Ride Booking
+## Ride Booking
 
 ### 1. Create Ride
 - **Endpoint**: `/api/v1/rides`
@@ -149,7 +156,7 @@ Start the server
 
 ---
 
-## 🛠️ Admin APIs
+## Admin APIs
 
 ### 1. View All Rides
 - **Endpoint**: `/api/v1/admin/rides`
@@ -159,7 +166,7 @@ Start the server
 - **What it does**: Retrieves all ride bookings.
 
 ### 2. View All Rides by Date
-- **Endpoint**: `/api/v1/admin/rides?date=YYYY-MM-DD`
+- **Endpoint**: `/api/v1/admin/rides?date=YYYY-MM-DD&status={status}&user={user_id}`
 - **Payload**: None
 - **Method**: GET
 - **Access**: Admin
@@ -183,8 +190,27 @@ Start the server
 - **Method**: GET
 - **Access**: Admin
 - **What it does**: Returns analytics for rides.
+- **Response**: 
+  ```json 
+  {
+    "success": true,
+    "message": "Analytics fetched successfully",
+    "data": {
+        "summary": {
+            "totalRides": 5,
+            "uniqueUsers": 1,
+            "cancelledRides": 2,
+            "approvedRides": 0,
+            "approvalRate": 0,
+            "avgRidesPerUser": 5
+        },
+        "dailyStats": [.....],
+        "topUsers": [.....],
+        "ridesPerUserPerDay": [....],
+  }
+  ```
 
-## 🗃️ Database Design
+## Database Design
 
 The backend database for the Corporate Ride Scheduler uses three core models:
 
@@ -229,7 +255,7 @@ Represents actions (approve/reject) taken by admins on rides.
 
 ---
 
-### 📌 Relationships
+### Relationships
 - One **User** can book multiple **Rides**.
 - One **Admin** (a type of User) can take multiple **AdminActions**.
 - One **AdminAction** is associated with one **Ride** and one **Admin**.

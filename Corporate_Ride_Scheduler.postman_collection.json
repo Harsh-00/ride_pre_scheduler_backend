@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "efd5b0d7-68a7-4168-91ba-dc78d3463c51",
+		"name": "Corporate Ride Scheduler",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29814775"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Authenticate User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"user@example.com\", \"password\": \"user12345\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/authenticate",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Harsh-emp\", \"email\": \"user@example.com\", \"password\": \"user12345\", \"role\": \"user\", \"employeeId\": \"EMP-001\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/me",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Harsh-Updated-5\", \"email\": \"user@example.com\", \"role\":\"admin\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/me",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update My Profile (Admin Only)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"Harsh-Updated\", \"email\": \"user@example.com\", \"role\":\"user\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/688e2200f8963c702be0ed82",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"688e2200f8963c702be0ed82"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ride Booking",
+			"item": [
+				{
+					"name": "Create Ride",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pickup\": \"Home-2\", \"dropoff\": \"Office-2\", \"datetime\": \"2025-08-09T12:00:00Z\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/rides",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Rides",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/rides",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ride Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/rides/688e310bf8963c702be0ee8e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rides",
+								"688e310bf8963c702be0ee8e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Ride",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "2742e6facdb3ec29"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/rides/688e310bf8963c702be0ee8e/cancel",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"rides",
+								"688e310bf8963c702be0ee8e",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin APIs",
+			"item": [
+				{
+					"name": "View All Rides",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/admin/rides",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"rides"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View All Rides (Filtering)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/admin/rides?date=2025-08-09",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"rides"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-08-09"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve/Reject Ride",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"action\": \"Rejected\"}"
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/admin/rides/688e2ea5f8963c702be0ee67",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"rides",
+								"688e2ea5f8963c702be0ee67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ride Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "admin-token"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/admin/analytics",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"analytics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "admin-token",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.0.113:5000/api/v1/users/me",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"0",
+						"113"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "{{base_url}}",
+			"type": "default"
+		}
+	]
+}

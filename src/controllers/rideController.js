@@ -8,8 +8,7 @@ exports.createRide = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return next(new BadRequestError(errors.array()[0].msg));
 
-    const { pickup, dropoff, datetime } = req.body;
-    if (!pickup || !dropoff || !datetime) return next(new BadRequestError('Missing fields'));
+    const { pickup, dropoff, datetime } = req.body; 
     if (new Date(datetime) < new Date()) return next(new BadRequestError('Cannot book past datetime'));
 
     // Prevent overlapping bookings

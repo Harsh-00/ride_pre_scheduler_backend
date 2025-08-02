@@ -27,18 +27,15 @@ exports.approveRejectRide = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return next(new BadRequestError(errors.array()[0].msg));
 
-    const { action } = req.body;
-    const validActions = ['Approved', 'Rejected'];
-    if (!validActions.includes(action)) return next(new BadRequestError('Invalid action'));
+    const { action } = req.body; 
 
-    const newStatus = action;
     const ride = await Ride.findOneAndUpdate(
       { _id: req.params.id, status: 'Pending' },
-      { status: newStatus },
+      { status: action },
       { new: true }
     );
     if (!ride) return next(new BadRequestError('Ride not pending or not found'));
-    await AdminAction.create({ ride: ride._id, admin: req.user._id, action: newStatus });
+    await AdminAction.create({ ride: ride._id, admin: req.user._id, action: action });
     sendResult(res, true, "Ride status updated successfully", ride);
   } catch (err) {
     next(err);
@@ -46,8 +43,7 @@ exports.approveRejectRide = async (req, res, next) => {
 };
 
 exports.getAnalytics = async (req, res) => { 
-  try {
-    // 1) Summary 
+  try { 
     const summary = await Ride.aggregate([
       {
         $group: {
@@ -129,8 +125,7 @@ exports.getAnalytics = async (req, res) => {
           },
           rides: { $sum: 1 }
         }
-      },
-      // Join user details
+      }, 
       {
         $lookup: {
           from: 'users',
@@ -139,8 +134,7 @@ exports.getAnalytics = async (req, res) => {
           as: 'user'
         }
       },
-      { $unwind: '$user' },
-      // Prepare flat records
+      { $unwind: '$user' }, 
       {
         $project: {
           date:   '$_id.date',
@@ -149,15 +143,13 @@ exports.getAnalytics = async (req, res) => {
           rides:  1,
           _id:    0
         }
-      },
-      // Group by date to nest user ride info
+      }, 
       {
         $group: {
           _id: '$date',
           rides: { $push: { userId: '$userId', name: '$name', rides: '$rides' } }
         }
-      },
-      // Format output
+      }, 
       {
         $project: {
           date: '$_id',
@@ -167,7 +159,6 @@ exports.getAnalytics = async (req, res) => {
       },
       { $sort: { date: 1 } }
     ]);
-
 
     sendResult(res, true, "Analytics fetched successfully", { summary:{
         totalRides,
