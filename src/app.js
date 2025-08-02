@@ -13,10 +13,15 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-// Mount routes
+// routes
 app.use('/api/v1/users', userRoutes); 
 app.use('/api/v1/rides', rideRoutes);
 app.use('/api/v1/admin', adminRoutes);
+
+// root route
+app.get('/', (req, res) => {
+  res.send('Corporate Ride Scheduler API is running!');
+});
 
 // Global error handler
 app.use(errorHandler);
